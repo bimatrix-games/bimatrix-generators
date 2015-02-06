@@ -1,3 +1,6 @@
+---
+layout: index
+---
 ##Bimatrix Generators
 A library of bimatrix game generators to complement the GAMUT generator with
 instances of games focusing on approximation algorithms. The game classes
