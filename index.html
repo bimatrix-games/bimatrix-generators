@@ -43,26 +43,40 @@ instances of games focusing on approximation algorithms. The game classes
 implemented are as follows:</p>
 
 <ul>
-<li>Colonel Blotto Games</li>
-<li>Ranking Games</li>
-<li>SGC Games</li>
-<li>Tournament Games</li>
-<li>Unit vector Games</li>
+<li>
+<strong>Colonel Blotto Games</strong>: The players in this game have an army with equal number
+of troops T, which they can then divide and dispatch to n battlefields (hills). Each
+player has a personal valuation for each hill which is received if the
+player has more troops than the opponent on that hill. In case of ties, the
+winner of the hill is choosen uniformly at random.</li>
+<li>
+<strong>Ranking Games</strong>: In ranking games, each player puts in an effort which comes at
+a cost and results in a score. The values of cost and score are monotone
+increasing in the amount of effort put in. The players are then ranked based
+on their score where the player with the higher score recieves a prize p, and
+in cases where a tie occurs, the players split the prize between them. Each
+players payoff is given by the value of the prize earned minus the cost of the
+effort put in.</li>
+<li>
+<strong>SGC Games</strong>: These games were created as a worst case scenario for support
+enumeration as it has a unique equilibrium where each player uses half of his
+actions in his support profile.</li>
+<li>
+<strong>Tournament Games</strong>: Starting from an arbitrary tournament graph with n nodes, an
+asymmetric bipartite graph is created where the nodes on one side (partition
+R) correspond to the nodes of the tournament graph, and the nodes on the other
+(partition C)side correspond to the k-sized subsets of nodes in the tournament 
+graph. The bipartite graph is then transformed into a win-lose game where the 
+actions of each player are nodes on their side of the graph.</li>
+<li>
+<strong>Unit vector Games</strong>: The payoffs of the column player are selected uniformly at
+random from the range [0, 1], while in the row player has each column of his
+payoff matrix being a unit vector.</li>
 </ul>
       </section>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-59447094-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+    
   </body>
 </html>
