@@ -21,12 +21,16 @@
 *.dylib
 
 # Executables
+bm-gen
 *.exe
 *.out
 *.app
 *.i*86
 *.x86_64
 *.hex
+
+# Python
+*.pyc
 
 #Vim files
 [._]*.s[a-w][a-z]
