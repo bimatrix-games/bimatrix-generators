@@ -18,12 +18,13 @@
 
 int prec = 15;
 
-void write_game_to_file(FILE *f, matrix_t *R, matrix_t *C)
+void write_game_to_file(FILE *f, char *info, matrix_t *R, matrix_t *C)
 {
     int i, j;
     double a, b;
 
-    fprintf(f, "NFG 1 D \"Using bm-gen\nGame Info\"\n");
+    fprintf(f, "NFG 1 D \"Using bm-gen\nGame Info\n");
+    fprintf(f, "%s ", info);
 
     fprintf(f, "{ \"P1\" \"P2\"}");
 
@@ -31,7 +32,6 @@ void write_game_to_file(FILE *f, matrix_t *R, matrix_t *C)
     int n = R->ncols;
     fprintf(f,"{ %d %d }\n\n", m, n);
 
-    //char info[20];
     for(i = 0; i < n; i++) {
         for(j = 0; j < m; j++) {
             a =(R->data[j][i]);
@@ -101,16 +101,24 @@ matrix_t **generate_sgc(int k)
     return game;
 }
 
-matrix_t **generate_game(char *game, int s, int k)
+matrix_t **generate_game(char *game, int s, int k, char *info)
 {
-    if(strncmp(game, "SGC", 3) == 0)
+    if(strncmp(game, "SGC", 3) == 0) {
+        sprintf(info, "Game: SGC\nk: %d\"", s);
         return generate_sgc(s);
-    else if (strncmp(game, "Unit", 3) == 0)
+    }
+    else if (strncmp(game, "Unit", 3) == 0) {
+        sprintf(info, "Game: No-Pure Unit-vector Game\nsize: %d\"", s);
         return generate_unit(s);
-    else if (strncmp(game, "Tournament", 10) == 0)
+    }
+    else if (strncmp(game, "Tournament", 10) == 0) {
+        sprintf(info, "Game: Tournament Game\nn: %d\nk: %d\"", s, k);
         return generate_tournament(s, k);
-    else if (strncmp(game, "Ranking", 7) == 0)
+    }
+    else if (strncmp(game, "Ranking", 7) == 0) {
+        sprintf(info, "Game: Ranking Game\nsize: %d\"", s);
         return generate_ranking(s);
+    }
     return NULL;
 }
 
@@ -151,10 +159,11 @@ int main(int argc, char **argv)
                 break;
         }
 
-    matrix_t **g = generate_game(game, s, k);
+    char info[100];
+    matrix_t **g = generate_game(game, s, k, info);
     matrix_t *A = g[0];
     matrix_t *B = g[1];
-    write_game_to_file(f, A, B);
+    write_game_to_file(f, info, A, B);
 
     matrix_free(A);
     matrix_free(B);

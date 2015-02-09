@@ -7,9 +7,10 @@ import getopt
 import sys
 
 # Output the game in gambit format
-def write_game(fName, A, B):
+def write_game(fName, info, A, B):
     f = open(fName, 'w')
-    f.write("NFG 1 D \"Using bm-gen\nGame Info\"\n")
+    f.write("NFG 1 D \"Using bm-gen\nGame Info\n")
+    f.write(info)
 
     f.write("{ \"P1\" \"P2\"}")
 
@@ -130,5 +131,6 @@ if __name__ == '__main__':
         elif o == "-c":
             c = float(a)
     np.set_printoptions(precision=3)
+    info = "Game: Colonel Blotto Game\nTroops: " + str(T) + "\nHills: " + str(n) + "\" "
     A, B = generate_game(T, n, c)
-    write_game(game_file, A, B)
+    write_game(game_file, info, A, B)
