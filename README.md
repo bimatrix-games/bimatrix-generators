@@ -31,13 +31,13 @@ implemented are as follows:
 ###Generating Instances:
 - **Global parameters**:
 
-    -f filename: Output the generated instance into the specified file using
-    the gamebit game format.
-    -r seed : Specify a randomseed for the generator
+        -f filename: Output the generated instance into the specified file using
+        the gamebit game format.
+        -r seed : Specify a randomseed for the generator
 
 - **Colonel Blotto Games**:
 
-    $ ./blotto.py -[n:T:r:f:c:]
+        $ ./blotto.py -[n:T:r:f:c:]
         -n hills: Indicates the number of hills
         -T troops: Indicates the number of troops
         -c covariance : The covariance value of the multivariate distriubution
