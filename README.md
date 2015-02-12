@@ -33,6 +33,7 @@ implemented are as follows:
 
         -f filename: Output the generated instance into the specified file using
         the gamebit game format.
+        -g game : Specifies which game to generate
         -r seed : Specify a randomseed for the generator
 
 - **Colonel Blotto Games**:
@@ -43,6 +44,25 @@ implemented are as follows:
         -c covariance : The covariance value of the multivariate distriubution
 
 - **Ranking Games**:
+
+        $ ./gen -g Ranking -[s:]
+        -s m : Generates a ranking game where both players have m effort levels
+
 - **SGC Games**:
+
+        $ ./gen -g SGC -s
+        -s m : Generates an instance of the SGC game where both players use
+        supports of size m.
+        
 - **Tournament Games**:
+
+        $./gen -g Tournament -[s:k:]
+        -s n : Sets the number of nodes in the tournament graph to n
+        -k k : Sets the size of the subset of nodes to k
+
 - **Unit vector Games**:
+
+        $ ./gen -g Unit -[s:k:]
+        -s m : Generates a Unit vector game of size m x m
+        -k i : If the argument is 0 then generates a Unit vector game which
+        avoids having a pure, otherwise, generates a random unit vector game
