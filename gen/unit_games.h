@@ -7,5 +7,5 @@
 /* 
 Generates a random no pure unit vector game of size k x k
 */
-matrix_t **generate_unit(int k);
+matrix_t **generate_unit(int k, int is_rand);
 #endif

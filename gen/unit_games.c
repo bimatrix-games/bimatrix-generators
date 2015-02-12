@@ -67,16 +67,26 @@ int unit_not_br(matrix_t *br, int col)
 }
 
 /*
-Populates matrix A with unite vector columns such that A, B
+Populates matrix A with unit vector columns such that A, B
 has no pure nash
 */
-void unit_matrix(matrix_t *A, matrix_t *br)
+void unit_matrix_no_pure(matrix_t *A, matrix_t *br)
 {
     int i, j;
     for (i = 0; i < A->ncols; ++i)
     {
-        //j = rand() % A->nrows;
         j = unit_not_br(br, i);
+        A->data[j][i] = 1;
+    }
+}
+
+/* Populates the columns of matrix A with random unit column vectors */
+void unit_matrix_rand(matrix_t *A)
+{
+    int i, j;
+    for (i = 0; i < A->ncols; ++i)
+    {
+        j = randint(A->nrows);
         A->data[j][i] = 1;
     }
 }
@@ -84,14 +94,21 @@ void unit_matrix(matrix_t *A, matrix_t *br)
 /*
 Generates a random no pure unit vector game of size k x k
 */
-matrix_t **generate_unit(int k)
+matrix_t **generate_unit(int k, int is_rand)
 {
     matrix_t **game = malloc(2 * sizeof(matrix_t *));
+
     game[0] = matrix_alloc(k, k);
     game[1] = matrix_alloc(k, k);
 
     matrix_rand(game[1]);
-    matrix_t *br = best_response_matrix(game[1]);
-    unit_matrix(game[0], br);
+
+    if (is_rand) {
+        unit_matrix_rand(game[0]);
+    } else {
+        matrix_t *br = best_response_matrix(game[1]);
+        unit_matrix_no_pure(game[0], br);
+    }
+
     return game;
 }

@@ -109,7 +109,7 @@ matrix_t **generate_game(char *game, int s, int k, char *info)
     }
     else if (strncmp(game, "Unit", 3) == 0) {
         sprintf(info, "Game: No-Pure Unit-vector Game\nsize: %d\"", s);
-        return generate_unit(s);
+        return generate_unit(s, k);
     }
     else if (strncmp(game, "Tournament", 10) == 0) {
         sprintf(info, "Game: Tournament Game\nn: %d\nk: %d\"", s, k);
