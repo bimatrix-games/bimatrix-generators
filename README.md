@@ -27,3 +27,18 @@ implemented are as follows:
 - **Unit vector Games**: The payoffs of the column player are selected uniformly at
   random from the range [0, 1], while in the row player has each column of his
   payoff matrix being a unit vector.
+
+###Generating Instances:
+- **Global parameters**:
+    -f filename: Output the generated instance into the specified file using
+    the gamebit game format.
+    -r seed : Specify a randomseed for the generator
+- **Colonel Blotto Games**:
+    $ ./blotto.py -[n:T:r:f:c:]
+        -n hills: Indicates the number of hills
+        -T troops: Indicates the number of troops
+        -c covariance : The covariance value of the multivariate distriubution
+- **Ranking Games**:
+- **SGC Games**:
+- **Tournament Games**:
+- **Unit vector Games**:
