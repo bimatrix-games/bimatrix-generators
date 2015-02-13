@@ -10,6 +10,7 @@
 #include "ranking.h"
 #include "util.h"
 #include "unit_games.h"
+#include "blotto.h"
 
 #define a(i) i - 1
 #define b(i) i + (2*k - 2) 
@@ -118,6 +119,10 @@ matrix_t **generate_game(char *game, int s, int k, char *info)
     else if (strncmp(game, "Ranking", 7) == 0) {
         sprintf(info, "Game: Ranking Game\nsize: %d\"", s);
         return generate_ranking(s);
+    }
+    else if (strncmp(game, "Blotto", 6) == 0) {
+        sprintf(info, "Game: Blotto Game\nsize: %d\"", s);
+        return generate_blotto(s, k, -1);
     }
     return NULL;
 }
