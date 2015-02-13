@@ -690,6 +690,27 @@ matrix_t* matrix_red_row_echelon(matrix_t *mat)
     
     return res;
 }
+
+/* Performs Cholesky decomposition on matrix A and returns matrix L */
+matrix_t* matrix_cholesky(matrix_t *A)
+{
+    matrix_t *L = matrix_alloc(A->nrows, A->ncols);
+
+    int i, j, k;
+    for (i = 0; i < L->nrows; ++i) {
+        for (j = 0; j < (i + 1); j++) {
+            double s = 0;
+            for (k = 0; k < j; k++)
+                s += L->data[i][k] * L->data[j][k];
+            L->data[i][j] = (i == j) ?
+                sqrt(A->data[i][j] - s) :
+                (1.0 / L->data[j][j] * (A->data[i][j] - s));
+        }
+    }
+
+    return L;
+}
+
 /* Outputs the matrix to screen */
 void matrix_print(matrix_t *mat)
 {
@@ -704,18 +725,4 @@ void matrix_print(matrix_t *mat)
         }
         printf("\n");
     }
-}
-
-/* Count the number of non-zero entries in A */
-int matrix_count_non_zero(matrix_t *A)
-{
-    int count, i, j;
-
-    count = 0;
-    for (i = 0; i < A->nrows; ++i)
-        for (j = 0; j < A->ncols; ++j)
-            if (A->data[i][j] != 0)
-                count++;
-
-    return count;
 }

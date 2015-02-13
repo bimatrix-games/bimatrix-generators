@@ -12,7 +12,7 @@
 #define err_le(x, y) (x < (y + eps_err))
 #define err_eq(x, y) (err_ge(x, y) && err_le(x, y))
 
-typedef struct
+typedef struct matrix_t
 {
     double **data;
     int nrows;
@@ -51,6 +51,7 @@ matrix_t* matrix_row_sub(matrix_t *A, matrix_t *s);
 matrix_t* matrix_row_sub_index(matrix_t *A, matrix_t *s);
 matrix_t* matrix_col_sub(matrix_t *A, matrix_t *s);
 matrix_t* matrix_red_row_echelon(matrix_t *mat);
+matrix_t* matrix_cholesky(matrix_t *A);
 void matrix_print(matrix_t *mat);
 
 #endif

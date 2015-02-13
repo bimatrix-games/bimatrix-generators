@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <math.h>
 #include "util.h"
+#include "matrix.h"
 
 /*
 Uniformly random int from range [0, n).
@@ -60,4 +61,53 @@ double rand_norm (double mu, double sigma)
     call = !call;
 
     return (mu + sigma * (double) X1);
+}
+
+/* 
+ * Given the cholesky decomposition A of the covariance matrix, generate a
+ * vector from a multivariate normal distribution
+ */ 
+static matrix_t *rand_multivariate_cholesky(matrix_t *A, double mu, matrix_t *z)
+{
+    matrix_rand_norm(z, 0, 1);
+    matrix_t *t1 = matrix_mul_mat_vec(A, z);
+    matrix_t *x = matrix_add_const(t1, mu);
+    return x;
+}
+
+/*
+ * Given a covariant matrix 'cov' of size k x k, and the expected average mu,
+ * generates a random vector which is k-variate normally distributed.
+ */
+matrix_t *rand_multivariate_single(matrix_t *cov, double mu)
+{
+    matrix_t *A = matrix_cholesky(cov);
+    matrix_t *z = matrix_alloc(cov->nrows, 1);
+    matrix_t *x = rand_multivariate_cholesky(A, mu, z);
+    matrix_free(A);
+    matrix_free(z);
+    return x;
+}
+
+/*
+ * Given a covariant matrix 'cov' of size k x k, and the expected average mu,
+ * generates a matrix of size reps x k where each row is chosen from a k-variate
+ * normal distribution using the specified covariance and mean.
+ */
+matrix_t *matrix_multivariate_multiple(matrix_t *cov, double mu, int reps)
+{
+    matrix_t *A = matrix_cholesky(cov);
+    matrix_t *res = matrix_alloc(reps, cov->nrows);
+    matrix_t *z = matrix_alloc(cov->nrows, 1);
+    int i;
+    for (i = 0; i < reps; ++i){
+        matrix_t *x = rand_multivariate_cholesky(A, mu, z);
+        int j;
+        for (j = 0; j < x->nrows; ++j)
+            res->data[i][j] = x->data[j][0];
+        matrix_free(x);
+    }
+    matrix_free(A);
+    matrix_free(z);
+    return res;
 }
