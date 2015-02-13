@@ -120,10 +120,10 @@ matrix_t **generate_game(char *game, int s, int k, char *info)
         sprintf(info, "Game: Ranking Game\nsize: %d\"", s);
         return generate_ranking(s);
     }
-    else if (strncmp(game, "Blotto", 6) == 0) {
-        sprintf(info, "Game: Blotto Game\nsize: %d\"", s);
-        return generate_blotto(s, k, -1);
-    }
+    //else if (strncmp(game, "Blotto", 6) == 0) {
+    //    sprintf(info, "Game: Blotto Game\nsize: %d\"", s);
+    //    return generate_blotto(s, k, -1);
+    //}
     return NULL;
 }
 
