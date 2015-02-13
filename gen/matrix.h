@@ -27,6 +27,7 @@ int matrix_is_equal(matrix_t *A, matrix_t *B);
 int matrix_has_neg(matrix_t *A);
 double matrix_sum(matrix_t *A);
 void matrix_rand(matrix_t *A);
+void matrix_rand_norm(matrix_t *m, double mu, double sigma);
 matrix_t* matrix_prob_norm(matrix_t *A);
 matrix_t* matrix_norm(matrix_t *A);
 matrix_t* matrix_norm_mm(matrix_t *A, double min, double max);

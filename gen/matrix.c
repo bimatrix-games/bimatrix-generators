@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <math.h>
 #include "matrix.h"
+#include "util.h"
 
 /* Initializes a matrix with all entries being zero */
 matrix_t* matrix_alloc(int nrows, int ncols)
@@ -106,6 +107,16 @@ void matrix_rand(matrix_t *mat)
     for (i = 0; i < mat->nrows; ++i)
         for (j = 0; j < mat->ncols; ++j)
             mat->data[i][j] = rand();
+}
+
+/* Fills the matrix with entries from a normal distribution */
+void matrix_rand_norm(matrix_t *m, double mu, double sigma)
+{
+    int i, j;
+
+    for (i = 0; i < m->nrows; ++i)
+        for (j = 0; j < m->ncols; ++j)
+            m->data[i][j] = rand_norm(mu, sigma);
 }
 
 /* Returns the sum of all entries in the matrix */
