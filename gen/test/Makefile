@@ -1,8 +1,10 @@
 CC=gcc
-CFLAGS=-g -Wall
+CFLAGS=-g -Wall -DDEBUG
 LDFLAGS=-L$(HOME)/local/lib
 
-OBJ=multivariate.o partition.o
+MULTI_OBJ=multivariate.o matrix.o util.o
+PART_OBJ=part.o partition.o
+OBJ=$(MULTI_OBJ) $(PART_OBJ)
 EXEC=multi partition
 
 %.o : %.c
@@ -10,11 +12,21 @@ EXEC=multi partition
 	
 all: multi partition
 
-multi: multivariate.o
-	$(CC) $(CFLAGS) multivariate.o ../matrix.o ../util.o -o multi -lm
+matrix.o : ../matrix.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
-partition: partition.o
-	$(CC) $(CFLAGS) partition.o -o partition -lm
+partition.o : ../partition.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+
+util.o : ../util.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+
+
+multi: $(MULTI_OBJ)
+	$(CC) $(CFLAGS) $(MULTI_OBJ) -o multi -lm
+
+partition: $(PART_OBJ)
+	$(CC) $(CFLAGS) $(PART_OBJ) -o partition -lm
 
 clean:
 	rm $(OBJ) $(EXEC)

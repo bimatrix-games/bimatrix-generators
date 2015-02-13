@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "partition.h"
 
-int **list = NULL;
-int ggk;
+int **partitions = NULL;
+int gk;
 int count = 0;
 
 void add_partition(int *part)
 {
     count++;
-    int **tmp = realloc(list, count * sizeof(int *));
+    int **tmp = realloc(partitions, count * sizeof(int *));
     if (tmp == NULL)
         exit(1);
-    list = tmp;
+    partitions = tmp;
 
-    list[count - 1] = calloc(ggk, sizeof(int));
-    memcpy(list[count-1], part, ggk * sizeof(int));
+    partitions[count - 1] = calloc(gk, sizeof(int));
+    memcpy(partitions[count-1], part, gk * sizeof(int));
 }
 
 int compare_partition(const void *a, const void *b)
@@ -25,7 +26,7 @@ int compare_partition(const void *a, const void *b)
 
     int i;
 
-    for (i = 0; i < ggk; ++i) {
+    for (i = 0; i < gk; ++i) {
         if (p1[i] < p2[i]) return -1;
         if (p1[i] > p2[i]) return 1;
     }
@@ -57,7 +58,7 @@ void permute(char *a, int i, int n)
 {
     int j; 
     if (i == n)
-        printf("%s\n", a);
+        return;
     else
     {
         for (j = i; j <= n; j++)
@@ -97,17 +98,10 @@ void partition_func(int n, int k, int l, int d, int *arr, int *perm)
     if (k == 1){
         if (n >= l) {
             arr[d] = n;
-            printf("\n");
-            for (i = 0; i < ggk; i++)
-                printf("%d ", arr[i]);
-            memcpy(perm, arr, ggk*sizeof(int));
-            printf("\n>>");
+            memcpy(perm, arr, gk*sizeof(int));
             do {
                 add_partition(perm);
-                for (i = 0; i < ggk; i++)
-                    printf("%d ", perm[i]);
-                printf("\n>>");
-            }while(permuteLexically(perm, ggk));
+            }while(permuteLexically(perm, gk));
         }
         return;
     }
@@ -116,32 +110,18 @@ void partition_func(int n, int k, int l, int d, int *arr, int *perm)
         partition_func(n-i, k-1, i, d+1, arr, perm);
     }
 }
-/* Driver program to test above functions */
-int main(int argc, char **argv)
+
+int sorted_partitions(int n, int k)
 {
-    //char a[] = "AABC";  
-    //permute(a, 0, 2);
-    //int i[] = {1, 2, 3, 4};
-    //do{
-    //    printf("%d %d %d %d\n", i[0], i[1], i[2], i[3]);
-    //}while(permuteLexically(i, 4));
-    int n = atoi(argv[1]);
-    int k = atoi(argv[2]);
-    ggk = k;
     int *arr = calloc(k, sizeof(int));
     int *perm = calloc(k, sizeof(int));
-    int i;
+
+    gk = k;
     partition_func(n, k, 0, 0, arr, perm);
+    qsort(partitions, count, sizeof(int *), compare_partition);
 
-    qsort(list, count, sizeof(int *), compare_partition);
-    printf("\n====================\n");
-    int j;
-    for (i = 0; i < count; ++i){
-        for (j = 0; j < k; ++j)
-            printf("%d ", list[i][j]);
-        printf("\n");
-    }
-    printf("Count %d\n", count);
+    free(arr);
+    free(perm);
 
-    return 0;
+    return count;
 }
