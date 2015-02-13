@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     cov->data[0][1] = cov->data[1][0] = atof(argv[1]);
     cov->data[0][0] = cov->data[1][1] = 1;
 
-    matrix_print(matrix_multivariate_multiple(cov, atoi(argv[2]), atoi(argv[3])));
+    matrix_print(rand_multivariate_multiple(cov, atoi(argv[2]), atoi(argv[3])));
 
     return 0;
 }

@@ -94,7 +94,7 @@ matrix_t *rand_multivariate_single(matrix_t *cov, double mu)
  * generates a matrix of size reps x k where each row is chosen from a k-variate
  * normal distribution using the specified covariance and mean.
  */
-matrix_t *matrix_multivariate_multiple(matrix_t *cov, double mu, int reps)
+matrix_t *rand_multivariate_multiple(matrix_t *cov, double mu, int reps)
 {
     matrix_t *A = matrix_cholesky(cov);
     matrix_t *res = matrix_alloc(reps, cov->nrows);
