@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-g -Wall
 LDFLAGS=-L$(HOME)/local/lib
 
-OBJ=matrix.o bm-gen.o tournament.o ranking.o util.o unit_games.o partition.o blotto.o
+OBJ=matrix.o bm-gen.o tournament.o ranking.o util.o unit_games.o partition.o blotto.o func.o
 EXEC=bm-gen
 
 %.o : %.c
