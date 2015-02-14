@@ -102,7 +102,7 @@ matrix_t **generate_sgc(int k)
     return game;
 }
 
-matrix_t **generate_game(char *game, int s, int k, char *info)
+matrix_t **generate_game(char *game, int s, int k, int r, char *info)
 {
     if(strncmp(game, "SGC", 3) == 0) {
         sprintf(info, "Game: SGC\nk: %d\"", s);
@@ -120,10 +120,10 @@ matrix_t **generate_game(char *game, int s, int k, char *info)
         sprintf(info, "Game: Ranking Game\nsize: %d\"", s);
         return generate_ranking(s);
     }
-    //else if (strncmp(game, "Blotto", 6) == 0) {
-    //    sprintf(info, "Game: Blotto Game\nsize: %d\"", s);
-    //    return generate_blotto(s, k, -1);
-    //}
+    else if (strncmp(game, "Blotto", 6) == 0) {
+        sprintf(info, "Game: Blotto Game\nHills: %d\nTroops:%d\nCovariance:%d\"", k, s, r);
+        return generate_blotto(s, k, r);
+    }
     return NULL;
 }
 
@@ -132,12 +132,16 @@ int main(int argc, char **argv)
     char c;
     char *game;
     int s;
+    int r = 0;
     int k = 2;
     FILE *f;
     srand(time(NULL));
-    while ((c = getopt(argc, argv, "s:f:g:r:k:")) != -1)
+    while ((c = getopt(argc, argv, "c:s:f:g:r:k:")) != -1)
         switch (c)
         {
+            case 'c':
+                r = atoi(optarg);
+                break;
             case 'f':
                 f = fopen(optarg,"w+");
                 break;
@@ -164,8 +168,11 @@ int main(int argc, char **argv)
                 break;
         }
 
+    if (r < -1 || r > 1)
+        r = 0;
+
     char info[100];
-    matrix_t **g = generate_game(game, s, k, info);
+    matrix_t **g = generate_game(game, s, k, r, info);
     matrix_t *A = g[0];
     matrix_t *B = g[1];
     write_game_to_file(f, info, A, B);
