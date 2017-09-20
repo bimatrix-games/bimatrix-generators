@@ -1,4 +1,5 @@
-##Bimatrix Generators
+## Bimatrix Generators
+
 A library of bimatrix game generators to complement the GAMUT generator with
 instances of games focusing on approximation algorithms. The game classes
 implemented are as follows:
@@ -28,7 +29,8 @@ implemented are as follows:
   random from the range [0, 1], while in the row player has each column of his
   payoff matrix being a unit vector.
 
-###Generating Instances:
+### Generating Instances:
+
 - **Global parameters**:
 
         -f filename: Output the generated instance into the specified file using
@@ -53,7 +55,7 @@ implemented are as follows:
         $ ./gen -g SGC -s
         -s m : Generates an instance of the SGC game where both players use
         supports of size m.
-        
+
 - **Tournament Games**:
 
         $./gen -g Tournament -[s:k:]
