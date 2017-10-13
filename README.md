@@ -37,6 +37,7 @@ implemented are as follows:
         the gamebit game format.
         -g game : Specifies which game to generate
         -r seed : Specify a randomseed for the generator
+        -N : Normalize the output game, resulting in payoff values between [0, 1]
 
 - **Colonel Blotto Games**:
 

@@ -135,9 +135,10 @@ int main(int argc, char **argv)
     int r = 0;
     int k = 2;
     int t = 2;
+    int norm = 0;
     FILE *f;
     srand(time(NULL));
-    while ((c = getopt(argc, argv, "c:s:f:g:r:k:t:")) != -1)
+    while ((c = getopt(argc, argv, "c:s:f:g:r:k:t:N:")) != -1)
         switch (c)
         {
             case 'c':
@@ -151,6 +152,9 @@ int main(int argc, char **argv)
                 break;
             case 'g':
                 game = optarg;
+                break;
+            case 'N':
+                norm = 1;
                 break;
             case 'r':
                 srand(atoi(optarg));
@@ -177,8 +181,19 @@ int main(int argc, char **argv)
 
     char info[100];
     matrix_t **g = generate_game(game, s, k, r, t, info);
-    matrix_t *A = g[0];
-    matrix_t *B = g[1];
+    matrix_t *A, *B;
+
+    // Normalize the game to [0, 1]
+    if (norm) {
+        A = matrix_norm(g[0]);
+        B = matrix_norm(g[1]);
+        matrix_free(g[0]);
+        matrix_free(g[1]);
+    } else {
+        A = g[0];
+        B = g[1];
+    }
+
     write_game_to_file(f, info, A, B);
 
     matrix_free(A);
