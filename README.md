@@ -40,10 +40,15 @@ implemented are as follows:
 
 - **Colonel Blotto Games**:
 
-        $ ./blotto.py -[n:T:r:f:c:]
+        $ ./blotto.py -[n:T:r:f:c:t:]
         -n hills: Indicates the number of hills
         -T troops: Indicates the number of troops
         -c covariance : The covariance value of the multivariate distriubution
+        -t tie: The tie breaking rule.
+            If 0 or 1, ties are broken in favour of players 1 and 2 respectively.
+            If 2, then each individual tie is broken in favour of a single player
+               (selected at random).
+            Otherwise, ties are broken uniformly at random.
 
 - **Ranking Games**:
 

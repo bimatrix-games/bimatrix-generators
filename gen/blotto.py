@@ -47,18 +47,20 @@ def part(n, k):
     return sorted(set(res))
 
 # Given two troop allocations for a single hill determine who wins
-def winb(a1, a2):
+def winb(a1, a2, tie):
     if a1 > a2:
         return 0
     elif a2 > a1:
         return 1
-    else:
+    elif tie == 2:
         return np.random.randint(2)
+    else:
+        return tie
 
 # Given two troop allocations across all hills returns a list indicating
 # which player won each hill
-def win(a1, a2):
-    return [winb(a1[i], a2[i]) for i in range(0, len(a1))]
+def win(a1, a2, tie):
+    return [winb(a1[i], a2[i], tie) for i in range(0, len(a1))]
 
 # Generates a valuation vector for both players chosen from a multivariate
 # normal distribution with covariance of r
@@ -75,23 +77,26 @@ def gen_payoff(n):
 
 # Given allocations of troops for both players, returns the payoff of
 # both players for that allocation
-def get_payoff(payoffs, a1, a2):
-    w = win(a1, a2)
+def get_payoff(payoffs, a1, a2, tie):
+    w = win(a1, a2, tie)
     p1 = 0
     p2 = 0
     
     for i in range(0, len(w)):
         if w[i] == 0:
             p1 += payoffs[0][i]
-        else :
+        elif w[i] == 1:
             p2 += payoffs[1][i]
+        else:
+            p1 += 0.5 * payoffs[0][i]
+            p2 += 0.5 * payoffs[1][i]
     
     return (p1, p2)
 
 #Generates a Colonel Blotto game with troop size T, number of hills n
 #and player payoffs chosen from a multivariate normal distribution with
 #covariance r
-def generate_game(T, n, r):
+def generate_game(T, n, r, tie):
     actions = part(T, n)
     #print actions
     m = len(actions)
@@ -101,14 +106,14 @@ def generate_game(T, n, r):
     B = np.empty([m, m])
     for i in range(0, m):
         for j in range(0, m):
-            p = get_payoff(payoffs, actions[i], actions[j])
+            p = get_payoff(payoffs, actions[i], actions[j], tie)
             A[i][j] = p[0]
             B[i][j] = p[1]
     return A, B
 
 if __name__ == '__main__':
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "n:T:r:f:c:")
+        opts, args = getopt.getopt(sys.argv[1:], "n:T:r:f:c:t:")
     except getopt.GetoptError as err:
         print str(err)
         sys.exit(2)
@@ -117,6 +122,7 @@ if __name__ == '__main__':
     n = 1
     T = 10
     c = 0.7
+    t = 2
     for o, a in opts:
         if o == "-f" :
             game_file = a
@@ -128,9 +134,11 @@ if __name__ == '__main__':
             n = int(a)
         elif o == "-T":
             T = int(a)
+        elif o == "-t":
+            t = int(a)
         elif o == "-c":
             c = float(a)
     np.set_printoptions(precision=3)
     info = "Game: Colonel Blotto Game\nTroops: " + str(T) + "\nHills: " + str(n) + "\" "
-    A, B = generate_game(T, n, c)
+    A, B = generate_game(T, n, c, t)
     write_game(game_file, info, A, B)

@@ -137,10 +137,9 @@ For node r in partition R, set all arcs from C to node r
 */
 void dominate_k(matrix_t *tourn, matrix_t *graph, int row, int k)
 {
-    int l, zeros;
+    int zeros;
     
     zeros = tourn->nrows - row_sum(tourn, row) - 1;
-    l = 0;
     
     if (zeros > k - 1) {
         set_row(tourn, graph, row, k);
